@@ -33,3 +33,8 @@ ehthumbs_vista.db
 [Dd]esktop.ini
 # Windows shortcuts
 *.lnk
+
+# dotenv environment variable files
+.env
+.env.*
+!.env.example
