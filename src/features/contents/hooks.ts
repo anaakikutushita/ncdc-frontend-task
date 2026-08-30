@@ -23,3 +23,13 @@ export const createContent = async (title: string, body: string): Promise<Conten
 
   return ContentSchema.parse(responseData);
 };
+
+// コンテンツの削除
+export const deleteContent = async (id: number): Promise<void> => {
+  await fetcher(`${EP_CONTENT}/${id}`, {
+    method: "DELETE",
+  });
+
+  // レスポンスは204 No Contentなので、特に何も返さない
+  return undefined;
+};

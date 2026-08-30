@@ -1,4 +1,5 @@
-import { createContent, useContents } from "@/features/contents/hooks";
+import { createContent, deleteContent, useContents } from "@/features/contents/hooks";
+import { type Content } from "@/features/contents/schemas";
 import { useState } from "react";
 
 const Loading = () => <div>Loading...</div>;
@@ -54,9 +55,25 @@ export const Sidebar = () => {
       const newContent = await createContent("新しいページ", "新しいページの本文を入力");
 
       // 2. SWRキャッシュの先頭に新しいデータを追加して画面を即時更新
-      mutate((currentContents = []) => [newContent, ...currentContents], { revalidate: false });
+      mutate((currentContents: Content[] = []) => [newContent, ...currentContents], {
+        revalidate: false,
+      });
     } catch (err) {
       console.error("作成に失敗しました", err);
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    try {
+      await deleteContent(id);
+      mutate(
+        (currentContents: Content[] = []) => currentContents.filter((content) => content.id !== id),
+        {
+          revalidate: false,
+        },
+      );
+    } catch (err) {
+      console.error("削除に失敗しました", err);
     }
   };
 
@@ -75,7 +92,11 @@ export const Sidebar = () => {
                 className="p-2 hover:bg-gray-200 rounded cursor-pointer transition-colors"
               >
                 <span className="block truncate text-sm">{content.title || "タイトルなし"}</span>
-                {isEditing && <button aria-label="delete">delete</button>}
+                {isEditing && (
+                  <button aria-label="delete" onClick={() => handleDelete(content.id)}>
+                    delete
+                  </button>
+                )}
               </li>
             ))}
           </ul>
