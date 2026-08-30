@@ -4,6 +4,7 @@ import { createContent, deleteContent, useContents } from "@/features/contents/h
 import { type Content } from "@/features/contents/schemas";
 import { useState } from "react";
 import trashIcon from "@/assets/delete.svg";
+import { sortContentsByDesc } from "@/utils/sort";
 
 const Loading = () => <div>Loading...</div>;
 
@@ -46,11 +47,8 @@ const FooterButtons = ({
 export const Sidebar = () => {
   const { contents, isLoading, error, mutate } = useContents();
 
-  // 追加仕様: createdAtの降順（新しいものが上）にソートして表示
-  // TODO: 別の関数として切り出してテストを追加する
-  const sortedContents = contents?.sort(
-    (a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime(),
-  );
+  // createdAtの降順（新しいものが上）にソートして表示
+  const sortedContents = sortContentsByDesc(contents || []);
 
   const handleCreate = async () => {
     try {
