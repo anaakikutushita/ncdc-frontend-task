@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import * as hooks from "@/features/contents/hooks";
+import { Sidebar } from "./Sidebar";
 
 vi.mock("@/features/contents/hooks");
 
