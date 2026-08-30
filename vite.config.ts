@@ -1,11 +1,12 @@
 import babel from "@rolldown/plugin-babel";
+import tailwindcss from "@tailwindcss/vite";
 import react, { reactCompilerPreset } from "@vitejs/plugin-react";
-import { defineConfig } from "vitest/config";
 import path from "path";
+import { defineConfig } from "vitest/config";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), babel({ presets: [reactCompilerPreset()] })],
+  plugins: [react(), babel({ presets: [reactCompilerPreset()] }), tailwindcss()],
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "src"),
@@ -14,6 +15,6 @@ export default defineConfig({
   test: {
     environment: "jsdom", // DOM環境をシミュレート（UIテスト用）
     globals: true, // describe や it をインポートなしで使えるように設定
-    setupFiles: ['./vitest.setup.ts'], // テストにおいてDOM専用のmatchersを使えるようにする
+    setupFiles: ["./vitest.setup.ts"], // テストにおいてDOM専用のmatchersを使えるようにする
   },
 });
