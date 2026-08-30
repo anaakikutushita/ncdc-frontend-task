@@ -8,5 +8,6 @@ export default defineConfig({
   test: {
     environment: "jsdom", // DOM環境をシミュレート（UIテスト用）
     globals: true, // describe や it をインポートなしで使えるように設定
+    setupFiles: ['./vitest.setup.ts'], // テストにおいてDOM専用のmatchersを使えるようにする
   },
 });
