@@ -1,6 +1,9 @@
+import { IconButton } from "@/components/ui/IconButton";
+import { LabelButton } from "@/components/ui/LabelButton";
 import { createContent, deleteContent, useContents } from "@/features/contents/hooks";
 import { type Content } from "@/features/contents/schemas";
 import { useState } from "react";
+import trashIcon from "@/assets/delete.svg";
 
 const Loading = () => <div>Loading...</div>;
 
@@ -22,18 +25,18 @@ const FooterButtons = ({
   return (
     <div className="flex space-x-2">
       {!isEditing && (
-        <button aria-label="edit" onClick={() => setIsEditing(true)}>
+        <LabelButton aria-label="edit" variant="primary" onClick={() => setIsEditing(true)}>
           Edit
-        </button>
+        </LabelButton>
       )}
       {isEditing && (
         <>
-          <button aria-label="new page" onClick={handleCreate}>
+          <LabelButton aria-label="new page" variant="secondary" onClick={handleCreate}>
             New page
-          </button>
-          <button aria-label="done" onClick={() => setIsEditing(false)}>
+          </LabelButton>
+          <LabelButton aria-label="done" variant="primary" onClick={() => setIsEditing(false)}>
             Done
-          </button>
+          </LabelButton>
         </>
       )}
     </div>
@@ -93,9 +96,11 @@ export const Sidebar = () => {
               >
                 <span className="block truncate text-sm">{content.title || "タイトルなし"}</span>
                 {isEditing && (
-                  <button aria-label="delete" onClick={() => handleDelete(content.id)}>
-                    delete
-                  </button>
+                  <IconButton
+                    aria-label="delete"
+                    icon={<img src={trashIcon} alt="Delete" />}
+                    onClick={() => handleDelete(content.id)}
+                  />
                 )}
               </li>
             ))}
