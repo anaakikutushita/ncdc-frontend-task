@@ -1,6 +1,6 @@
 import useSWR from "swr";
 import { z } from "zod";
-import { fetcher } from "../../api/client";
+import { fetcher } from "@/api/client";
 import { ContentSchema, type Content } from "./schemas";
 
 const EP_CONTENT = "/content";
@@ -22,4 +22,14 @@ export const createContent = async (title: string, body: string): Promise<Conten
   });
 
   return ContentSchema.parse(responseData);
+};
+
+// コンテンツの削除
+export const deleteContent = async (id: number): Promise<void> => {
+  await fetcher(`${EP_CONTENT}/${id}`, {
+    method: "DELETE",
+  });
+
+  // レスポンスは204 No Contentなので、特に何も返さない
+  return undefined;
 };
