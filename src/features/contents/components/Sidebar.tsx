@@ -1,10 +1,9 @@
-import { IconButton } from "@/components/ui/IconButton";
 import { LabelButton } from "@/components/ui/LabelButton";
 import { createContent, deleteContent, useContents } from "@/features/contents/hooks";
 import { type Content } from "@/features/contents/schemas";
-import { useState } from "react";
-import trashIcon from "@/assets/delete.svg";
 import { sortContentsByDesc } from "@/utils/sort";
+import { useState } from "react";
+import { SidebarItem } from "./SidemarItem";
 
 const Loading = () => <div>Loading...</div>;
 
@@ -88,19 +87,12 @@ export const Sidebar = () => {
         <nav>
           <ul className="flex-1 overflow-y-auto p-2 space-y-1">
             {sortedContents?.map((content) => (
-              <li
+              <SidebarItem
                 key={content.id}
-                className="p-2 hover:bg-gray-200 rounded cursor-pointer transition-colors"
-              >
-                <span className="block truncate text-sm">{content.title || "タイトルなし"}</span>
-                {isEditing && (
-                  <IconButton
-                    aria-label="delete"
-                    icon={<img src={trashIcon} alt="Delete" />}
-                    onClick={() => handleDelete(content.id)}
-                  />
-                )}
-              </li>
+                content={content}
+                isEditing={isEditing}
+                onDelete={handleDelete}
+              />
             ))}
           </ul>
         </nav>
