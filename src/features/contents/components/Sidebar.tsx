@@ -3,7 +3,7 @@ import { createContent, deleteContent, useContents } from "@/features/contents/h
 import { type Content } from "@/features/contents/schemas";
 import { sortContentsByDesc } from "@/utils/sort";
 import { useState } from "react";
-import { SidebarItem } from "./SidemarItem";
+import { SidebarItem } from "./SidebarItem";
 
 const Loading = () => <div>Loading...</div>;
 
