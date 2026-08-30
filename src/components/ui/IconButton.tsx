@@ -1,5 +1,7 @@
-type IconButtonProps = React.ComponentProps<"button"> & {
-  icon: React.ReactNode;
+import type { ComponentProps, ReactNode } from "react";
+
+type IconButtonProps = ComponentProps<"button"> & {
+  icon: ReactNode;
 };
 
 export const IconButton = ({ icon, ...props }: IconButtonProps) => {
