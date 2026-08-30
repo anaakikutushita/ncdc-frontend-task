@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CONTENT_ERR, NewContentSchema } from "../pages/schemas";
+import { CONTENT_ERR, NewContentSchema } from "@/features/contents/schemas";
 
 describe("NewContentSchema バリデーション", () => {
   // 基準となる正常データ

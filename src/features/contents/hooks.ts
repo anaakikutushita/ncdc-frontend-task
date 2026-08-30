@@ -1,6 +1,6 @@
 import useSWR from "swr";
 import { z } from "zod";
-import { fetcher } from "../../api/client";
+import { fetcher } from "@/api/client";
 import { ContentSchema, type Content } from "./schemas";
 
 const EP_CONTENT = "/content";

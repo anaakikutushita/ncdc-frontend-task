@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import * as hooks from "../hooks.ts";
+import * as hooks from "@/features/contents/hooks";
 
-vi.mock("../hooks.ts");
+vi.mock("@/features/contents/hooks");
 
 describe("Sidebar コンポーネント", () => {
   beforeEach(() => {
