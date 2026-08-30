@@ -1,78 +1,55 @@
-# React + TypeScript + Vite
+# 株式会社NCDC様 フロントエンド技術課題
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 実行環境の構築手順
 
-Currently, two official plugins are available:
+### 前提条件
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- 提供されたバックエンドAPIリポジトリがローカル環境（例: `http://localhost:3000`）で起動していること。
+- [.node-version](.node-version) に記載のバージョンのNode.jsをインストールしていること。
 
-## React Compiler
+### 依存関係と環境変数の設定
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+本プロジェクトのクローン後、依存パッケージをインストールしてください。
 
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```sh
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+バックエンドAPIとの通信において環境変数を参照しています。設定例 [.env.example](.env.example) をコピーしてご利用ください。
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```sh
+cp .env.example .env
+# .env 内の VITE_API_BASE_URL が、起動中のバックエンドAPIのURLと一致しているかご確認ください。
 ```
+
+## アプリの実行
+
+```sh
+# 開発サーバーの起動
+npm run dev
+
+# テストの実行
+npm run test
+```
+
+## 選定した技術とその理由
+
+限られた時間の中で「開発体験（DX）の向上」と「保守性の高いコードの提供」を両立する目的で、以下の技術スタックを選定しました。
+
+- フレームワーク: Vite + React + TypeScript
+  - クライアントサイドの堅牢な実装とテストに注力しました。
+  - Next.js: 今回の要件に関して複雑すぎ、開発に時間を要してしまうと判断しました。
+- サーバー通信: SWR + fetch
+  - データフェッチとキャッシュ管理をシンプルに行うため採用しました。
+  - POST時のレスポンスを利用してSWRのキャッシュを更新し、無駄な再フェッチを避けています。
+- スキーマ定義とバリデーション: Zod
+  - 「タイトル1〜50文字」等のドメインルールを宣言的かつ型安全に定義できます。
+  - ドメインルールの定義をそのままAPIのレスポンス検証やフォームのバリデーションで利用可能であり、DRY原則にマッチしています。
+- スタイリング: Tailwind CSS
+  - コンポーネント内にスタイルを閉じることで保守性を高めるため採用しました。
+
+## テスト戦略
+
+### エラーメッセージの取り扱い
+
+保守性を高めるため、Zodスキーマのバリデーションエラーメッセージを定数オブジェクトとして一元管理しました。これによって、スキーマファイルとテストファイル間でメッセージを共有可能になり、文言を将来的に変更してもテストが壊れにくくなりました。
