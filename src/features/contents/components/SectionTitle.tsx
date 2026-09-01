@@ -1,7 +1,8 @@
 import { LabelButton } from "@/components/ui/LabelButton";
-import { updateContent, useContent } from "@/features/contents/hooks";
+import { EP_CONTENT, updateContent, useContent } from "@/features/contents/hooks";
 import { type Content, ContentSchema } from "@/features/contents/schemas";
 import { useState } from "react";
+import { useSWRConfig } from "swr";
 
 type SectionTitleProps = {
   content: Content;
@@ -13,6 +14,7 @@ export const SectionTitle = ({ content }: SectionTitleProps) => {
   const [error, setError] = useState<string | null>(null);
 
   // キャッシュ更新用
+  const { mutate: mutateGlobal } = useSWRConfig(); // リストも更新するため、グローバルなmutateを取得
   const { mutate } = useContent(content.id);
 
   const handleSave = async () => {
@@ -33,6 +35,8 @@ export const SectionTitle = ({ content }: SectionTitleProps) => {
       mutate((current: Content | undefined) => (current ? { ...current, title } : undefined), {
         revalidate: false,
       });
+      // 4. グローバルなmutateを呼び出して、リストのタイトル一覧も更新
+      mutateGlobal(EP_CONTENT);
       setIsEditing(false);
     } catch (err) {
       console.error("更新に失敗しました", err);

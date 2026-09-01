@@ -3,7 +3,7 @@ import useSWR from "swr";
 import { z } from "zod";
 import { ContentSchema, type Content } from "./schemas";
 
-const EP_CONTENT = "/content";
+export const EP_CONTENT = "/content";
 
 // コンテンツ一覧の取得
 export const useContents = () => {
