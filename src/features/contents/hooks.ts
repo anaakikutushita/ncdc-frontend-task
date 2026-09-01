@@ -14,6 +14,15 @@ export const useContents = () => {
   return { contents, error, isLoading, mutate };
 };
 
+// 単一のコンテンツの取得
+export const useContent = (id: number | null) => {
+  const { data, error, isLoading, mutate } = useSWR(id ? `${EP_CONTENT}/${id}` : null, fetcher);
+
+  const content: Content | undefined = data ? ContentSchema.parse(data) : undefined;
+
+  return { content, error, isLoading, mutate };
+};
+
 // コンテンツの作成
 export const createContent = async (title: string, body: string): Promise<Content> => {
   const responseData = await fetcher(EP_CONTENT, {
