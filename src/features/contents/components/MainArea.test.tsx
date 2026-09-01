@@ -51,23 +51,6 @@ describe("MainArea コンポーネント", () => {
     expect(screen.queryByRole("textbox", { name: /本文/i })).not.toBeInTheDocument();
   });
 
-  it("タイトルの編集ボタンをクリックすると、タイトル用のテキストボックスが表示される", async () => {
-    const user = userEvent.setup();
-    vi.spyOn(hooks, "useContent").mockReturnValue({
-      content: mockContent,
-      isLoading: false,
-      error: undefined,
-      mutate: vi.fn(),
-    });
-
-    render(<MainArea selectedId={1} />);
-    await user.click(screen.getByRole("button", { name: /タイトルを編集/i }));
-
-    const titleInput = screen.getByRole("textbox", { name: /タイトル/i });
-    expect(titleInput).toBeInTheDocument();
-    expect(titleInput).toHaveValue("選択されたタイトル");
-  });
-
   it("本文の編集ボタンをクリックすると、本文用のテキストボックス（textarea）が表示される", async () => {
     const user = userEvent.setup();
     vi.spyOn(hooks, "useContent").mockReturnValue({

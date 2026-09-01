@@ -26,7 +26,7 @@ export const MainArea = ({ selectedId }: MainAreaProps) => {
     <main className="flex-1 p-8 flex flex-col gap-6 bg-white overflow-hidden">
       {/* 2列（可変幅 + ボタン領域の幅）のグリッドを定義 */}
       <article className="grid grid-cols-[1fr_auto] gap-x-4 gap-y-6">
-        <SectionTitle title={content.title} />
+        <SectionTitle content={content} />
         <SectionBody body={content.body} />
       </article>
 
