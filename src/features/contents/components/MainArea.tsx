@@ -27,7 +27,7 @@ export const MainArea = ({ selectedId }: MainAreaProps) => {
       {/* 2列（可変幅 + ボタン領域の幅）のグリッドを定義 */}
       <article className="grid grid-cols-[1fr_auto] gap-x-4 gap-y-6">
         <SectionTitle content={content} />
-        <SectionBody body={content.body} />
+        <SectionBody content={content} />
       </article>
 
       <footer className="flex justify-between items-center">

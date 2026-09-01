@@ -1,19 +1,50 @@
-import { type Content } from "@/features/contents/schemas";
+import { updateContent, useContent } from "@/features/contents/hooks";
+import { ContentSchema, type Content } from "@/features/contents/schemas";
 import { useState } from "react";
 
-type SectionBodyProps = {
-  body: Content["body"];
-};
+type SectionBodyProps = { content: Content };
 
-export const SectionBody = ({ body }: SectionBodyProps) => {
+export const SectionBody = ({ content }: SectionBodyProps) => {
   const [isEditing, setIsEditing] = useState(false);
+  const [body, setBody] = useState(content.body);
+  const [error, setError] = useState<string | null>(null);
+
+  const { mutate } = useContent(content.id);
+
+  const handleSave = async () => {
+    // Zodスキーマから本文部分だけを抽出してバリデーション
+    const bodySchema = ContentSchema.pick({ body: true });
+    const validation = bodySchema.safeParse({ body });
+
+    if (!validation.success) {
+      setError(validation.error.issues[0].message);
+      return;
+    }
+
+    setError(null);
+    try {
+      await updateContent(content.id, { body });
+      mutate((current: Content) => (current ? { ...current, body } : undefined), {
+        revalidate: false,
+      });
+      setIsEditing(false);
+    } catch (err) {
+      console.error("更新に失敗しました", err);
+    }
+  };
+
+  const handleCancel = () => {
+    setBody(content.body);
+    setError(null);
+    setIsEditing(false);
+  };
 
   return (
     <div className="col-span-2 grid grid-cols-subgrid items-start">
       {!isEditing ? (
         <>
           <p className="body h-[400px] w-full overflow-y-auto p-4 bg-gray-50 rounded border border-gray-200 whitespace-pre-wrap text-gray-800">
-            {body}
+            {content.body}
           </p>
           <button
             className="edit text-sm font-medium text-blue-600 hover:text-blue-800"
@@ -26,16 +57,28 @@ export const SectionBody = ({ body }: SectionBodyProps) => {
       ) : (
         <>
           <textarea
-            defaultValue={body}
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
             aria-label="本文"
-            className="h-[400px] w-full p-4 border border-gray-300 rounded resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={`h-[400px] w-full p-4 border rounded resize-none focus:outline-none focus:ring-2 ${
+              error ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-blue-500"
+            }`}
           />
-          <button
-            onClick={() => setIsEditing(false)}
-            className="px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 rounded whitespace-nowrap"
-          >
-            キャンセル
-          </button>
+          {error && <span className="text-red-500 text-xs font-medium">{error}</span>}
+          <div className="flex flex-col gap-2 shrink-0">
+            <button
+              onClick={handleSave}
+              className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded whitespace-nowrap"
+            >
+              保存
+            </button>
+            <button
+              onClick={handleCancel}
+              className="px-4 py-2 text-sm font-medium bg-gray-100 hover:bg-gray-200 rounded whitespace-nowrap"
+            >
+              キャンセル
+            </button>
+          </div>
         </>
       )}
     </div>

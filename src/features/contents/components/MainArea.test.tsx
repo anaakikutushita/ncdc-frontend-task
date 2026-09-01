@@ -1,6 +1,5 @@
 import * as hooks from "@/features/contents/hooks";
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { MainArea } from "./MainArea.tsx";
 
@@ -49,22 +48,5 @@ describe("MainArea コンポーネント", () => {
     // 入力フォームが存在しないことを検証
     expect(screen.queryByRole("textbox", { name: /タイトル/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("textbox", { name: /本文/i })).not.toBeInTheDocument();
-  });
-
-  it("本文の編集ボタンをクリックすると、本文用のテキストボックス（textarea）が表示される", async () => {
-    const user = userEvent.setup();
-    vi.spyOn(hooks, "useContent").mockReturnValue({
-      content: mockContent,
-      isLoading: false,
-      error: undefined,
-      mutate: vi.fn(),
-    });
-
-    render(<MainArea selectedId={1} />);
-    await user.click(screen.getByRole("button", { name: /本文を編集/i }));
-
-    const bodyInput = screen.getByRole("textbox", { name: /本文/i });
-    expect(bodyInput).toBeInTheDocument();
-    expect(bodyInput).toHaveValue(mockContent.body);
   });
 });

@@ -37,9 +37,9 @@ describe("SectionTitle コンポーネント", () => {
     expect(titleInput).toHaveValue("元のタイトル");
   });
 
-  it("新しいタイトルを入力して保存すると、APIが呼ばれて閲覧モードに戻ること", async () => {
+  it("新しいタイトルを入力して保存すると、APIが呼ばれて閲覧モードに戻る", async () => {
     const user = userEvent.setup();
-    const mockUpdateContent = vi.spyOn(hooks, "updateContent").mockResolvedValue(undefined);
+    const mockUpdateContent = vi.spyOn(hooks, "updateContent").mockResolvedValue(mockContent);
     const mockMutate = vi.fn();
     vi.spyOn(hooks, "useContent").mockReturnValue({
       content: mockContent,
@@ -69,7 +69,7 @@ describe("SectionTitle コンポーネント", () => {
     expect(screen.queryByRole("textbox", { name: /タイトル/i })).not.toBeInTheDocument();
   });
 
-  it("タイトルを空にして保存しようとするとZodのバリデーションエラーが表示され、APIは呼ばれないこと", async () => {
+  it("タイトルを空にして保存しようとするとZodのバリデーションエラーが表示され、APIは呼ばれない", async () => {
     const user = userEvent.setup();
     const mockUpdateContent = vi.spyOn(hooks, "updateContent");
 
