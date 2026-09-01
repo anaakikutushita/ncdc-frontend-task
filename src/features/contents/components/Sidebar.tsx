@@ -43,7 +43,12 @@ const FooterButtons = ({
   );
 };
 
-export const Sidebar = () => {
+type SidebarProps = {
+  selectedId: number | null;
+  onSelect: (id: number) => void;
+};
+
+export const Sidebar = ({ selectedId, onSelect }: SidebarProps) => {
   const { contents, isLoading, error, mutate } = useContents();
 
   // createdAtの降順（新しいものが上）にソートして表示
@@ -91,6 +96,8 @@ export const Sidebar = () => {
                 key={content.id}
                 content={content}
                 isEditing={isEditing}
+                isSelected={selectedId === content.id}
+                onSelect={onSelect}
                 onDelete={handleDelete}
               />
             ))}
