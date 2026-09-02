@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-import { ButtonLabel } from "./components/ui/ButtonLabel";
+import { ButtonAction } from "./features/contents/components/ButtonAction";
 import { MainArea } from "./features/contents/components/MainArea";
 import { Sidebar } from "./features/contents/components/Sidebar";
 
@@ -15,12 +15,12 @@ function App() {
       <div className="p-8 border-b-4 border-dashed border-gray-300 bg-white">
         <h2 className="mb-4 text-lg font-bold">UI調整 Sandbox</h2>
         <div className="grid grid-cols-3 gap-4 items-center">
-          <ButtonLabel variant="primary">Edit (Primary)</ButtonLabel>
-          <ButtonLabel variant="secondary">Done (Secondary)</ButtonLabel>
-          <ButtonLabel variant="normal">Cancel (Normal)</ButtonLabel>
-          <ButtonLabel variant="primary" disabled>Edit (disabled)</ButtonLabel>
-          <ButtonLabel variant="secondary" disabled>Done (disabled)</ButtonLabel>
-          <ButtonLabel variant="normal" disabled>Cancel (disabled)</ButtonLabel>
+          <ButtonAction action="edit" />
+          <ButtonAction action="done" />
+          <ButtonAction action="cancel" />
+          <ButtonAction action="edit" disabled />
+          <ButtonAction action="done" disabled />
+          <ButtonAction action="cancel" disabled />
         </div>
       </div>
       {/* --- ここまで --- */}

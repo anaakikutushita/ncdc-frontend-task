@@ -1,18 +1,23 @@
-import type { ComponentProps, ReactNode } from "react";
+import type { ComponentProps } from "react";
+import { twMerge } from "tailwind-merge";
 
 type ButtonLabelProps = ComponentProps<"button"> & {
   variant?: "primary" | "secondary" | "normal";
-  icon?: ReactNode;
 };
 
-export const ButtonLabel = ({ variant = "primary", icon, children, ...props }: ButtonLabelProps) => {
+export const ButtonLabel = ({
+  variant = "primary",
+  className,
+  children,
+  ...props
+}: ButtonLabelProps) => {
   // 読みやすいようにjoinを使って適度に改行しています
   const baseClasses = [
     "min-w-[40px] h-[40px]",
-    "rounded p-1",
+    "rounded",
+    "text-xs",
     "font-semibold",
     "transition-all duration-150",
-    "grid grid-cols-1 gap-1 items-center justify-center",
   ].join(" ");
   const variantClasses = {
     primary: [
@@ -40,9 +45,8 @@ export const ButtonLabel = ({ variant = "primary", icon, children, ...props }: B
   };
 
   return (
-    <button className={`${baseClasses} ${variantClasses[variant]}`} {...props}>
-      {icon && <span className="block">{icon}</span>}
-      <span className="block">{children}</span>
+    <button className={twMerge(baseClasses, variantClasses[variant], className)} {...props}>
+      {children}
     </button>
   );
 };
