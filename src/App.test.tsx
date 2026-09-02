@@ -39,6 +39,11 @@ describe("App 統合テスト", () => {
       mockContents[index] = { ...mockContents[index], ...data };
       return mockContents[index];
     });
+
+    // 削除APIのモック
+    vi.spyOn(hooks, 'deleteContent').mockImplementation(async (id) => {
+      mockContents = mockContents.filter(c => c.id !== id);
+    });
   });
 
   it("MainAreaでタイトルを保存すると、Sidebarの表示も連動して更新される", async () => {
@@ -69,5 +74,30 @@ describe("App 統合テスト", () => {
       const updatedTitles = screen.getAllByText("変更後の新しいタイトル");
       expect(updatedTitles.length).toBeGreaterThanOrEqual(1);
     });
+  });
+
+  it('選択中の記事を削除した場合、メインエリアが「ページを選択してください」の初期状態に戻る', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <SWRConfig value={{ provider: () => new Map() }}>
+        <App />
+      </SWRConfig>
+    );
+
+    // 1. 記事を選択してメインエリアに表示させる
+    await user.click(screen.getByText('最初のタイトル'));
+    expect(screen.getByRole('heading', { name: '最初のタイトル' })).toBeInTheDocument();
+
+    // 2. サイドバーを編集モードにする
+    await user.click(screen.getByRole('button', { name: /edit/i }));
+
+    // 3. 選択中の記事の削除ボタン（delete）をクリックする
+    // ※ 最初のタイトル（id: 1）に対応する1番目のdeleteボタンを取得
+    const deleteButtons = screen.getAllByRole('button', { name: /delete/i });
+    await user.click(deleteButtons[0]);
+
+    // 4. 選択状態が解除され、メインエリアが初期状態に戻ることを検証
+    expect(screen.getByText('ページを選択してください')).toBeInTheDocument();
   });
 });
