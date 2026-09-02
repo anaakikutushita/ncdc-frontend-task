@@ -41,10 +41,10 @@ export const SectionBody = ({ content }: SectionBodyProps) => {
   };
 
   return (
-    <div className="col-span-2 grid grid-cols-subgrid items-start">
+    <div className="grid col-span-2 grid-cols-subgrid items-start">
       {!isEditing ? (
         <>
-          <p className="body h-[400px] w-full overflow-y-auto p-4 bg-gray-50 rounded border border-gray-200 whitespace-pre-wrap text-gray-800">
+          <p className="overflow-y-auto p-[30px] bg-gray-50 rounded border border-gray-200 whitespace-pre-wrap">
             {content.body}
           </p>
           <ButtonAction aria-label="本文を編集" action="edit" onClick={() => setIsEditing(true)} />
@@ -55,7 +55,7 @@ export const SectionBody = ({ content }: SectionBodyProps) => {
             value={body}
             onChange={(e) => setBody(e.target.value)}
             aria-label="本文"
-            className={`h-[400px] w-full p-4 border rounded resize-none focus:outline-none focus:ring-2 ${
+            className={`w-full p-[30px] border rounded resize-none focus:outline-none focus:ring-2 ${
               error ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-blue-500"
             }`}
           />

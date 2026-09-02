@@ -53,7 +53,7 @@ export const SectionTitle = ({ content }: SectionTitleProps) => {
     <header className="col-span-2 grid grid-cols-subgrid items-center">
       {!isEditing ? (
         <>
-          <h2 className="pl-1 title text-lg font-bold text-gray-900 truncate">{title}</h2>
+          <h2 className="pl-[30px] text-lg font-bold truncate">{title}</h2>
           <ButtonAction
             aria-label="タイトルを編集"
             action="edit"
@@ -67,7 +67,7 @@ export const SectionTitle = ({ content }: SectionTitleProps) => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             aria-label="タイトル"
-            className={`w-full border p-1 text-lg font-bold rounded focus:outline-none focus:ring-2 ${
+            className={`w-full border pl-[30px] text-lg font-bold rounded focus:outline-none focus:ring-2 ${
               error ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-blue-500"
             }`}
           />

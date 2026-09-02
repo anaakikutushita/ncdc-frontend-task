@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./App.css";
-import { ButtonAction } from "./features/contents/components/ButtonAction";
 import { MainArea } from "./features/contents/components/MainArea";
 import { Sidebar } from "./features/contents/components/Sidebar";
 
@@ -9,7 +8,7 @@ function App() {
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
   return (
-    <div className="flex flex-col h-screen w-full font-sans text-gray-900">
+    <div className="flex flex-col h-screen w-full font-sans text-black-80">
 
       {/* --- ここから一時的なカタログ領域 --- */}
       {/* <div className="p-8 border-b-4 border-dashed border-gray-300 bg-white">
