@@ -9,10 +9,6 @@ function App() {
 
   return (
     <div className="flex h-screen w-full bg-gray-50 font-sans text-gray-900">
-      {/*
-        ※手動確認を成立させるため、Sidebar側に selectedId と onSelect(id) を
-        受け取るPropsが未実装の場合は追加してください
-      */}
       <Sidebar selectedId={selectedId} onSelect={setSelectedId} />
       <MainArea selectedId={selectedId} />
     </div>
