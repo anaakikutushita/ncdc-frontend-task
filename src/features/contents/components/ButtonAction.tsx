@@ -45,11 +45,11 @@ export const ButtonAction = ({ className, action, ...props }: ButtonActionProps)
   return (
     <ButtonLabel
       variant={appearance.variant}
-      className={twMerge("grid grid-cols-1 gap-0 place-items-center", className)}
+      className={twMerge("grid grid-cols-1 grid-rows-[1fr_auto] gap-0 place-items-center", className)}
       {...props}
     >
-      <img src={appearance.icon} alt={appearance.label} className="w-6 h-6 text-brand-20" />
-      {appearance.label}
+      <img src={appearance.icon} alt={appearance.label} className="w-6 h-6 min-h-0 text-brand-20" />
+      <span className="min-h-0">{appearance.label}</span>
     </ButtonLabel>
   );
 };

@@ -20,11 +20,13 @@ export const SidebarItem = ({
   return (
     <li
       onClick={() => onSelect(content.id)}
-      className={`p-2 rounded flex justify-between items-center transition-colors group cursor-pointer ${
-        isSelected ? "bg-blue-100 text-blue-900 font-medium" : "hover:bg-gray-200"
+      className={`h-11 p-2 rounded flex justify-between items-center transition-colors group cursor-pointer ${
+        isSelected ? "bg-surface-light text-brand-50 font-bold" : "hover:bg-gray-200"
       }`}
     >
-      <span className="block truncate text-sm pointer-events-none">{content.title || "タイトルなし"}</span>
+      <span className="block truncate text-sm pointer-events-none">
+        {content.title || "タイトルなし"}
+      </span>
       {isEditing && (
         <ButtonIcon
           aria-label="delete"

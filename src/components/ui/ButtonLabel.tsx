@@ -14,8 +14,8 @@ export const ButtonLabel = ({
   // 読みやすいようにjoinを使って適度に改行しています
   const baseClasses = [
     "min-w-[40px] h-[40px]",
-    "rounded",
-    "text-xs",
+    "pb-1 rounded",
+    "text-[12px]",
     "font-semibold",
     "transition-all duration-150",
     "disabled:brightness-110",

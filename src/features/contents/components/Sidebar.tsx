@@ -23,18 +23,33 @@ const FooterButtons = ({
   handleCreate?: () => Promise<void>;
 }) => {
   return (
-    <div className="flex space-x-2">
+    <div className="p-3 bg-surface-light flex space-x-2 justify-end">
       {!isEditing && (
-        <ButtonAction aria-label="edit" action="edit" onClick={() => setIsEditing(true)}>
+        <ButtonAction
+          aria-label="edit"
+          action="edit"
+          className="min-w-[96px]"
+          onClick={() => setIsEditing(true)}
+        >
           Edit
         </ButtonAction>
       )}
       {isEditing && (
         <>
-          <ButtonAction aria-label="new page" action="new" onClick={handleCreate}>
+          <ButtonAction
+            aria-label="new page"
+            action="new"
+            className="min-w-[96px]"
+            onClick={handleCreate}
+          >
             New page
           </ButtonAction>
-          <ButtonAction aria-label="done" action="done" onClick={() => setIsEditing(false)}>
+          <ButtonAction
+            aria-label="done"
+            action="done"
+            className="min-w-[96px]"
+            onClick={() => setIsEditing(false)}
+          >
             Done
           </ButtonAction>
         </>
@@ -89,12 +104,12 @@ export const Sidebar = ({ selectedId, onSelect }: SidebarProps) => {
 
   const [isEditing, setIsEditing] = useState(false);
   return (
-    <aside className="w-[280px] bg-light">
+    <aside className="w-[280px] bg-white flex flex-col items-stretch justify-between">
       {isLoading && <Loading />}
       {error && <ShowError message={error.message} />}
       {!contents?.length && !isLoading && !error && <NoContents />}
       {contents?.length && (
-        <nav>
+        <nav className=" pt-[30px] px-[40px]">
           <ul className="flex-1 overflow-y-auto p-2 space-y-1">
             {sortedContents?.map((content) => (
               <SidebarItem
