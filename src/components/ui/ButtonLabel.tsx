@@ -1,11 +1,11 @@
 import type { ComponentProps, ReactNode } from "react";
 
-type LabelButtonProps = ComponentProps<"button"> & {
+type ButtonLabelProps = ComponentProps<"button"> & {
   variant?: "primary" | "secondary" | "normal";
   icon?: ReactNode;
 };
 
-export const LabelButton = ({ variant = "primary", icon, children, ...props }: LabelButtonProps) => {
+export const ButtonLabel = ({ variant = "primary", icon, children, ...props }: ButtonLabelProps) => {
   // 読みやすいようにjoinを使って適度に改行しています
   const baseClasses = [
     "min-w-[40px] h-[40px]",

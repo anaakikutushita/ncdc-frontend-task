@@ -1,4 +1,4 @@
-import { LabelButton } from "@/components/ui/LabelButton";
+import { ButtonLabel } from "@/components/ui/ButtonLabel";
 import { EP_CONTENT, updateContent, useContent } from "@/features/contents/hooks";
 import { type Content, ContentSchema } from "@/features/contents/schemas";
 import { useState } from "react";
@@ -54,13 +54,13 @@ export const SectionTitle = ({ content }: SectionTitleProps) => {
       {!isEditing ? (
         <>
           <h2 className="title text-3xl font-bold text-gray-900 truncate">{title}</h2>
-          <LabelButton
+          <ButtonLabel
             className="edit text-sm font-medium text-blue-600 hover:text-blue-800"
             onClick={() => setIsEditing(true)}
             aria-label="タイトルを編集"
           >
             編集
-          </LabelButton>
+          </ButtonLabel>
         </>
       ) : (
         <>
@@ -74,18 +74,18 @@ export const SectionTitle = ({ content }: SectionTitleProps) => {
             }`}
           />
           {error && <span className="text-red-500 text-xs font-medium">{error}</span>}
-          <LabelButton
+          <ButtonLabel
             onClick={handleSave}
             className="px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 rounded whitespace-nowrap"
           >
             保存
-          </LabelButton>
-          <LabelButton
+          </ButtonLabel>
+          <ButtonLabel
             onClick={handleCancel}
             className="px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 rounded whitespace-nowrap"
           >
             キャンセル
-          </LabelButton>
+          </ButtonLabel>
         </>
       )}
     </header>

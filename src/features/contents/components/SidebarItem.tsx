@@ -1,5 +1,5 @@
 import trashIcon from "@/assets/delete.svg";
-import { IconButton } from "@/components/ui/IconButton";
+import { ButtonIcon } from "@/components/ui/ButtonIcon";
 import { type Content } from "../schemas";
 
 type SidebarItemProps = {
@@ -26,7 +26,7 @@ export const SidebarItem = ({
     >
       <span className="block truncate text-sm pointer-events-none">{content.title || "タイトルなし"}</span>
       {isEditing && (
-        <IconButton
+        <ButtonIcon
           aria-label="delete"
           icon={<img src={trashIcon} alt="Delete" />}
           onClick={(e) => {

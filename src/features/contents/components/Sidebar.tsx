@@ -1,4 +1,4 @@
-import { LabelButton } from "@/components/ui/LabelButton";
+import { ButtonLabel } from "@/components/ui/ButtonLabel";
 import { createContent, deleteContent, useContents } from "@/features/contents/hooks";
 import { type Content } from "@/features/contents/schemas";
 import { sortContentsByDesc } from "@/utils/sort";
@@ -25,18 +25,18 @@ const FooterButtons = ({
   return (
     <div className="flex space-x-2">
       {!isEditing && (
-        <LabelButton aria-label="edit" variant="primary" onClick={() => setIsEditing(true)}>
+        <ButtonLabel aria-label="edit" variant="primary" onClick={() => setIsEditing(true)}>
           Edit
-        </LabelButton>
+        </ButtonLabel>
       )}
       {isEditing && (
         <>
-          <LabelButton aria-label="new page" variant="secondary" onClick={handleCreate}>
+          <ButtonLabel aria-label="new page" variant="secondary" onClick={handleCreate}>
             New page
-          </LabelButton>
-          <LabelButton aria-label="done" variant="primary" onClick={() => setIsEditing(false)}>
+          </ButtonLabel>
+          <ButtonLabel aria-label="done" variant="primary" onClick={() => setIsEditing(false)}>
             Done
-          </LabelButton>
+          </ButtonLabel>
         </>
       )}
     </div>

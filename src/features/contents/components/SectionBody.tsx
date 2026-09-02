@@ -1,4 +1,4 @@
-import { LabelButton } from "@/components/ui/LabelButton";
+import { ButtonLabel } from "@/components/ui/ButtonLabel";
 import { updateContent, useContent } from "@/features/contents/hooks";
 import { ContentSchema, type Content } from "@/features/contents/schemas";
 import { useState } from "react";
@@ -47,13 +47,13 @@ export const SectionBody = ({ content }: SectionBodyProps) => {
           <p className="body h-[400px] w-full overflow-y-auto p-4 bg-gray-50 rounded border border-gray-200 whitespace-pre-wrap text-gray-800">
             {content.body}
           </p>
-          <LabelButton
+          <ButtonLabel
             className="edit text-sm font-medium text-blue-600 hover:text-blue-800"
             onClick={() => setIsEditing(true)}
             aria-label="本文を編集"
           >
             編集
-          </LabelButton>
+          </ButtonLabel>
         </>
       ) : (
         <>
@@ -67,18 +67,18 @@ export const SectionBody = ({ content }: SectionBodyProps) => {
           />
           {error && <span className="text-red-500 text-xs font-medium">{error}</span>}
           <div className="flex flex-col gap-2 shrink-0">
-            <LabelButton
+            <ButtonLabel
               onClick={handleSave}
               className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded whitespace-nowrap"
             >
               保存
-            </LabelButton>
-            <LabelButton
+            </ButtonLabel>
+            <ButtonLabel
               onClick={handleCancel}
               className="px-4 py-2 text-sm font-medium bg-gray-100 hover:bg-gray-200 rounded whitespace-nowrap"
             >
               キャンセル
-            </LabelButton>
+            </ButtonLabel>
           </div>
         </>
       )}
