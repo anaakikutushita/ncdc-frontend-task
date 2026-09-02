@@ -1,1 +1,21 @@
 @import "tailwindcss";
+
+@theme {
+  --color-brand-10: #D3ECFE;
+  --color-brand-20: #4CB3F8;
+  --color-brand-30: #3C8EC4;
+  --color-brand-40: #347CAB;
+
+  /* テキスト・ボタン用ブラック系 */
+  --color-black-10: #ECECEC;
+  --color-black-20: #CCCCCC;
+  --color-black-30: #B3B3B3;
+  --color-black-40: #999999;
+  --color-black-45: #808080;
+  --color-black-50: #4D4D4D;
+  --color-black-80: #333333;
+
+  /* 背景色 */
+  --color-surface-light: #F5F8FA;
+  --color-surface-dark: #C8E6FA;
+}
