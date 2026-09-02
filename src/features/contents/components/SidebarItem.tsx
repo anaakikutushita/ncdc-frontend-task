@@ -5,19 +5,32 @@ import { type Content } from "../schemas";
 type SidebarItemProps = {
   content: Content;
   isEditing: boolean;
+  isSelected: boolean;
+  onSelect: (id: number) => void;
   onDelete: (id: number) => void;
 };
 
-export const SidebarItem = ({ content, isEditing, onDelete }: SidebarItemProps) => {
+export const SidebarItem = ({
+  content,
+  isEditing,
+  isSelected,
+  onSelect,
+  onDelete,
+}: SidebarItemProps) => {
   return (
-    <li className="p-2 hover:bg-gray-200 rounded flex justify-between items-center transition-colors group cursor-pointer">
-      <span className="block truncate text-sm">{content.title || "タイトルなし"}</span>
+    <li
+      onClick={() => onSelect(content.id)}
+      className={`p-2 rounded flex justify-between items-center transition-colors group cursor-pointer ${
+        isSelected ? "bg-blue-100 text-blue-900 font-medium" : "hover:bg-gray-200"
+      }`}
+    >
+      <span className="block truncate text-sm pointer-events-none">{content.title || "タイトルなし"}</span>
       {isEditing && (
         <IconButton
           aria-label="delete"
           icon={<img src={trashIcon} alt="Delete" />}
           onClick={(e) => {
-            e.stopPropagation(); // クリックイベントが親要素に伝播するのを防ぐ
+            e.stopPropagation(); // クリックイベントが伝播してonSelectが発火するのを防ぐ
             onDelete(content.id);
           }}
         />

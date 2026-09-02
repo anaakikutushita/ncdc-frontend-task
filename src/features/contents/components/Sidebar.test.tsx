@@ -35,7 +35,7 @@ describe("Sidebar コンポーネント 初期状態", () => {
       mutate: vi.fn(),
     });
 
-    render(<Sidebar />);
+    render(<Sidebar selectedId={null} onSelect={vi.fn()} />);
 
     expect(screen.getByText("mock-コンテンツ1")).toBeInTheDocument();
     expect(screen.getByText("mock-コンテンツ2")).toBeInTheDocument();
@@ -64,7 +64,7 @@ describe("Sidebar コンポーネント 初期状態", () => {
       mutate: vi.fn(),
     });
 
-    render(<Sidebar />);
+    render(<Sidebar selectedId={null} onSelect={vi.fn()} />);
 
     // li要素をすべて取得し、画面上の表示順を検証
     const listItems = screen.getAllByRole("listitem");
@@ -75,6 +75,44 @@ describe("Sidebar コンポーネント 初期状態", () => {
   // TODO: 空表示のテストを追加する
 
   // TODO: エラー表示のテストを追加する
+
+  it("アイテムをクリックするとonSelectが呼ばれる", async () => {
+    // API通信をモック
+    vi.spyOn(hooks, "useContents").mockReturnValue({
+      contents: [
+        {
+          id: 1,
+          title: "テスト記事",
+          body: "mock-コンテンツ1の本文",
+          createdAt: "2026-08-30T00:00:00.000Z",
+          updatedAt: "2026-08-30T00:00:00.000Z",
+        },
+        {
+          id: 2,
+          title: "mock記事タイトル",
+          body: "mock-コンテンツ2の本文",
+          createdAt: "2026-08-30T00:00:00.000Z",
+          updatedAt: "2026-08-30T00:00:00.000Z",
+        },
+      ],
+      isLoading: false,
+      error: undefined,
+      mutate: vi.fn(),
+    });
+
+    const user = userEvent.setup();
+    const mockOnSelect = vi.fn();
+
+    render(<Sidebar selectedId={null} onSelect={mockOnSelect} />);
+
+    // 記事（ここではタイトルが「テスト記事」の要素）をクリック
+    const item = screen.getByText("テスト記事");
+    await user.click(item);
+
+    // モック関数が正しいID（例: 1）と共に1回呼ばれたことを検証
+    expect(mockOnSelect).toHaveBeenCalledTimes(1);
+    expect(mockOnSelect).toHaveBeenCalledWith(1);
+  });
 });
 
 describe("Sidebar コンポーネント 編集モード", () => {
@@ -98,7 +136,7 @@ describe("Sidebar コンポーネント 編集モード", () => {
 
   it("EditとDoneのクリックでUIの表示状態が切り替わる", async () => {
     const user = userEvent.setup();
-    render(<Sidebar />);
+    render(<Sidebar selectedId={null} onSelect={vi.fn()} />);
 
     const expectDefaultState = () => {
       expect(screen.getByRole("button", { name: /edit/i })).toBeInTheDocument();
@@ -155,7 +193,7 @@ describe("Sidebar コンポーネント 編集モード", () => {
       updatedAt: "2026-08-30T00:00:00.000Z",
     });
 
-    render(<Sidebar />);
+    render(<Sidebar selectedId={null} onSelect={vi.fn()} />);
 
     // 編集モードにして New page をクリック
     await user.click(screen.getByRole("button", { name: /edit/i }));
@@ -199,7 +237,7 @@ describe("Sidebar コンポーネント 編集モード", () => {
 
     const mockDeleteContent = vi.spyOn(hooks, "deleteContent").mockResolvedValue(undefined);
 
-    render(<Sidebar />);
+    render(<Sidebar selectedId={null} onSelect={vi.fn()} />);
 
     // 編集モードに切り替え、単一のdeleteボタンをクリック
     await user.click(screen.getByRole("button", { name: /edit/i }));

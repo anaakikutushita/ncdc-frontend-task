@@ -43,7 +43,12 @@ const FooterButtons = ({
   );
 };
 
-export const Sidebar = () => {
+type SidebarProps = {
+  selectedId: number | null;
+  onSelect: (id: number | null) => void;
+};
+
+export const Sidebar = ({ selectedId, onSelect }: SidebarProps) => {
   const { contents, isLoading, error, mutate } = useContents();
 
   // createdAtの降順（新しいものが上）にソートして表示
@@ -72,6 +77,11 @@ export const Sidebar = () => {
           revalidate: false,
         },
       );
+
+      // 削除対象が現在表示中の記事だった場合、メインエリアの表示をクリアする
+      if (id === selectedId) {
+        onSelect(null);
+      }
     } catch (err) {
       console.error("削除に失敗しました", err);
     }
@@ -91,6 +101,8 @@ export const Sidebar = () => {
                 key={content.id}
                 content={content}
                 isEditing={isEditing}
+                isSelected={selectedId === content.id}
+                onSelect={onSelect}
                 onDelete={handleDelete}
               />
             ))}
