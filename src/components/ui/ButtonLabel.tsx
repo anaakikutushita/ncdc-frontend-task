@@ -23,15 +23,24 @@ export const ButtonLabel = ({
   ].join(" ");
 
   const variantClasses = {
-    primary: ["bg-brand-20 text-white", "hover:bg-brand-30", "active:bg-brand-40"].join(" "),
+    primary: [
+      "bg-brand-20 text-white",
+      "enabled:hover:bg-brand-30",
+      "enabled:active:bg-brand-40",
+    ].join(" "),
     secondary: [
       "bg-white",
       "border-3 border-brand-20",
       "text-brand-20",
-      "hover:bg-black-20",
-      "active:bg-black-30",
+      "enabled:hover:bg-black-20",
+      "enabled:active:bg-black-30",
     ].join(" "),
-    normal: ["bg-black-30", "text-white", "hover:bg-black-40", "active:bg-black-45"].join(" "),
+    normal: [
+      "bg-black-30",
+      "text-white",
+      "enabled:hover:bg-black-40",
+      "enabled:active:bg-black-45",
+    ].join(" "),
   };
 
   return (
