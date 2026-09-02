@@ -1,7 +1,7 @@
-import { ButtonLabel } from "@/components/ui/ButtonLabel";
 import { updateContent, useContent } from "@/features/contents/hooks";
 import { ContentSchema, type Content } from "@/features/contents/schemas";
 import { useState } from "react";
+import { ButtonAction } from "./ButtonAction";
 
 type SectionBodyProps = { content: Content };
 
@@ -47,13 +47,7 @@ export const SectionBody = ({ content }: SectionBodyProps) => {
           <p className="body h-[400px] w-full overflow-y-auto p-4 bg-gray-50 rounded border border-gray-200 whitespace-pre-wrap text-gray-800">
             {content.body}
           </p>
-          <ButtonLabel
-            className="edit text-sm font-medium text-blue-600 hover:text-blue-800"
-            onClick={() => setIsEditing(true)}
-            aria-label="本文を編集"
-          >
-            編集
-          </ButtonLabel>
+          <ButtonAction aria-label="本文を編集" action="edit" onClick={() => setIsEditing(true)} />
         </>
       ) : (
         <>
@@ -65,21 +59,16 @@ export const SectionBody = ({ content }: SectionBodyProps) => {
               error ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-blue-500"
             }`}
           />
-          {error && <span className="text-red-500 text-xs font-medium">{error}</span>}
-          <div className="flex flex-col gap-2 shrink-0">
-            <ButtonLabel
-              onClick={handleSave}
-              className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded whitespace-nowrap"
-            >
-              保存
-            </ButtonLabel>
-            <ButtonLabel
+          <div className="flex space-x-2 justify-between">
+            <ButtonAction
+              aria-label="キャンセル"
+              action="cancel"
+              className="flex-1"
               onClick={handleCancel}
-              className="px-4 py-2 text-sm font-medium bg-gray-100 hover:bg-gray-200 rounded whitespace-nowrap"
-            >
-              キャンセル
-            </ButtonLabel>
+            />
+            <ButtonAction aria-label="保存" action="save" className="flex-1" onClick={handleSave} />
           </div>
+          {error && <span className="text-red-500 text-xs font-medium">{error}</span>}
         </>
       )}
     </div>

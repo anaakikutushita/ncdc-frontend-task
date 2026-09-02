@@ -1,12 +1,14 @@
 import cancelIcon from "@/assets/cancel.svg";
 import doneIcon from "@/assets/done.svg";
 import editIcon from "@/assets/edit.svg";
+import plusIcon from "@/assets/+.svg";
+import saveIcon from "@/assets/save.svg";
 import { ButtonLabel } from "@/components/ui/ButtonLabel";
 import type { ComponentProps } from "react";
 import { twMerge } from "tailwind-merge";
 
 type ButtonActionProps = ComponentProps<"button"> & {
-  action: "edit" | "done" | "cancel";
+  action: "edit" | "done" | "cancel" | "new" | "save";
 };
 
 export const ButtonAction = ({ className, action, ...props }: ButtonActionProps) => {
@@ -21,10 +23,20 @@ export const ButtonAction = ({ className, action, ...props }: ButtonActionProps)
       label: "Done",
       icon: doneIcon,
     },
+    new: {
+      variant: "secondary",
+      label: "New page",
+      icon: plusIcon,
+    },
     cancel: {
       variant: "normal",
       label: "Cancel",
       icon: cancelIcon,
+    },
+    save: {
+      variant: "primary",
+      label: "Save",
+      icon: saveIcon,
     },
   } as const;
 

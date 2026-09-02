@@ -12,7 +12,7 @@ function App() {
     <div className="flex flex-col h-screen w-full font-sans text-gray-900">
 
       {/* --- ここから一時的なカタログ領域 --- */}
-      <div className="p-8 border-b-4 border-dashed border-gray-300 bg-white">
+      {/* <div className="p-8 border-b-4 border-dashed border-gray-300 bg-white">
         <h2 className="mb-4 text-lg font-bold">UI調整 Sandbox</h2>
         <div className="grid grid-cols-3 gap-4 items-center">
           <ButtonAction action="edit" />
@@ -22,7 +22,7 @@ function App() {
           <ButtonAction action="done" disabled />
           <ButtonAction action="cancel" disabled />
         </div>
-      </div>
+      </div> */}
       {/* --- ここまで --- */}
 
       <div className="flex flex-1 overflow-hidden bg-gray-50">
