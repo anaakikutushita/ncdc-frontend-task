@@ -18,30 +18,20 @@ export const ButtonLabel = ({
     "text-xs",
     "font-semibold",
     "transition-all duration-150",
+    "disabled:brightness-110",
+    "disabled:opacity-50",
   ].join(" ");
+
   const variantClasses = {
-    primary: [
-      "bg-brand-20 text-white",
-      "hover:bg-brand-30",
-      "active:bg-brand-40",
-      "disabled:bg-brand-10",
-    ].join(" "),
+    primary: ["bg-brand-20 text-white", "hover:bg-brand-30", "active:bg-brand-40"].join(" "),
     secondary: [
       "bg-white",
       "border-3 border-brand-20",
       "text-brand-20",
       "hover:bg-black-20",
       "active:bg-black-30",
-      "disabled:border-brand-10",
-      "disabled:text-brand-10",
     ].join(" "),
-    normal: [
-      "bg-black-30",
-      "text-white",
-      "hover:bg-black-40",
-      "active:bg-black-45",
-      "disabled:bg-black-10",
-    ].join(" "),
+    normal: ["bg-black-30", "text-white", "hover:bg-black-40", "active:bg-black-45"].join(" "),
   };
 
   return (
