@@ -24,9 +24,9 @@ function App() {
       </div> */}
       {/* --- ここまで --- */}
 
-      <div className="flex flex-1 overflow-hidden bg-gray-50">
+      <div className="flex flex-1 overflow-hidden">
         <Sidebar selectedId={selectedId} onSelect={setSelectedId} />
-        <MainArea selectedId={selectedId} />
+        <MainArea className="flex-1" selectedId={selectedId} />
       </div>
     </div>
   );
