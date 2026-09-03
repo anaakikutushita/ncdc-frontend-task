@@ -18,6 +18,8 @@ export const ButtonLabel = ({
     "text-[12px]",
     "font-semibold",
     "transition-all duration-150",
+    "enabled:cursor-pointer",
+    "disabled:cursor-not-allowed",
     "disabled:brightness-110",
     "disabled:opacity-50",
   ].join(" ");

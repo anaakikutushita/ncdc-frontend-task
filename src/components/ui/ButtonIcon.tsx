@@ -9,12 +9,13 @@ export const ButtonIcon = ({ icon, ...props }: ButtonIconProps) => {
     <button
       {...props}
       className={[
-        "cursor-pointer",
+        "enabled:cursor-pointer",
+        "disabled:cursor-not-allowed",
         "min-w-6 w-6 h-6",
         "rounded",
         "flex items-center justify-center",
-        "hover:brightness-90",
-        "hover:bg-black-10",
+        "enabled:hover:brightness-90",
+        "enabled:hover:bg-black-10",
         "active:brightness-75",
         "disabled:brightness-100",
         "disabled:opacity-50",
