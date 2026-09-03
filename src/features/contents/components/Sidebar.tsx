@@ -1,3 +1,4 @@
+import { LogoLockup } from "@/components/logo/LogoLockup";
 import { ButtonAction } from "@/features/contents/components/ButtonAction";
 import { createContent, deleteContent, useContents } from "@/features/contents/hooks";
 import { type Content } from "@/features/contents/schemas";
@@ -23,16 +24,20 @@ const FooterButtons = ({
   handleCreate?: () => Promise<void>;
 }) => {
   return (
-    <div className="p-3 bg-surface-light flex space-x-2 justify-end">
+    <div className="p-3 bg-surface-light flex space-x-2 justify-between items-center">
       {!isEditing && (
-        <ButtonAction
-          aria-label="edit"
-          action="edit"
-          className="min-w-[96px]"
-          onClick={() => setIsEditing(true)}
-        >
-          Edit
-        </ButtonAction>
+        <>
+          {/* justify-between でボタンを右寄せにするために空要素を配置 */}
+          <div role="none"></div>
+          <ButtonAction
+            aria-label="edit"
+            action="edit"
+            className="min-w-[96px]"
+            onClick={() => setIsEditing(true)}
+          >
+            Edit
+          </ButtonAction>
+        </>
       )}
       {isEditing && (
         <>
@@ -104,26 +109,35 @@ export const Sidebar = ({ selectedId, onSelect }: SidebarProps) => {
 
   const [isEditing, setIsEditing] = useState(false);
   return (
-    <aside className="w-[280px] bg-white flex flex-col items-stretch justify-between">
-      {isLoading && <Loading />}
-      {error && <ShowError message={error.message} />}
-      {!contents?.length && !isLoading && !error && <NoContents />}
-      {contents?.length && (
-        <nav className=" pt-[30px] px-[40px]">
-          <ul className="flex-1 overflow-y-auto p-2 space-y-1">
-            {sortedContents?.map((content) => (
-              <SidebarItem
-                key={content.id}
-                content={content}
-                isEditing={isEditing}
-                isSelected={selectedId === content.id}
-                onSelect={onSelect}
-                onDelete={handleDelete}
-              />
-            ))}
-          </ul>
-        </nav>
-      )}
+    <aside
+      className={[
+        "w-[280px] bg-white",
+        "border-r-[1px] border-surface-light",
+        "flex flex-col items-stretch justify-between",
+      ].join(" ")}
+    >
+      <div role="none" className="pt-[30px] px-[40px] flex flex-col gap-5">
+        <LogoLockup />
+        {isLoading && <Loading />}
+        {error && <ShowError message={error.message} />}
+        {!contents?.length && !isLoading && !error && <NoContents />}
+        {contents?.length && (
+          <nav>
+            <ul className="flex-1 overflow-y-auto space-y-1">
+              {sortedContents?.map((content) => (
+                <SidebarItem
+                  key={content.id}
+                  content={content}
+                  isEditing={isEditing}
+                  isSelected={selectedId === content.id}
+                  onSelect={onSelect}
+                  onDelete={handleDelete}
+                />
+              ))}
+            </ul>
+          </nav>
+        )}
+      </div>
       <FooterButtons
         isEditing={isEditing}
         setIsEditing={setIsEditing}
