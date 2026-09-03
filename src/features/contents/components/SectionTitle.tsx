@@ -67,9 +67,13 @@ export const SectionTitle = ({ content }: SectionTitleProps) => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             aria-label="タイトル"
-            className={`w-full border pl-[30px] text-lg font-bold rounded focus:outline-none focus:ring-2 ${
-              error ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-blue-500"
-            }`}
+            aria-invalid={error ? "true" : undefined}
+            className={[
+              "text-lg font-bold",
+              "w-full border pl-[30px] rounded focus:outline-none focus:ring-2",
+              "border-brand-20 focus:ring-brand-20",
+              "aria-invalid:border-red-500 aria-invalid:focus:ring-red-500",
+            ].join(" ")}
           />
           <div className="flex space-x-2 justify-between">
             <ButtonAction

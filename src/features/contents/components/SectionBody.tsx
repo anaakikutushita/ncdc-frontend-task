@@ -41,12 +41,20 @@ export const SectionBody = ({ content }: SectionBodyProps) => {
   };
 
   return (
-    <div className="grid col-span-2 grid-cols-subgrid items-start">
+    <div className="grid col-span-2 grid-cols-subgrid">
       {!isEditing ? (
         <>
-          <p className="overflow-y-auto p-[30px] bg-gray-50 rounded border border-gray-200 whitespace-pre-wrap">
-            {content.body}
-          </p>
+          <div role="none" className="min-h-0">
+            <p
+              className={[
+                "h-full",
+                "rounded border border-gray-200 p-[30px] bg-white",
+                "overflow-y-auto whitespace-pre-wrap",
+              ].join(" ")}
+            >
+              {content.body}
+            </p>
+          </div>
           <ButtonAction aria-label="本文を編集" action="edit" onClick={() => setIsEditing(true)} />
         </>
       ) : (
@@ -55,9 +63,13 @@ export const SectionBody = ({ content }: SectionBodyProps) => {
             value={body}
             onChange={(e) => setBody(e.target.value)}
             aria-label="本文"
-            className={`w-full p-[30px] border rounded resize-none focus:outline-none focus:ring-2 ${
-              error ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-blue-500"
-            }`}
+            aria-invalid={error ? "true" : undefined}
+            className={[
+              "resize-none",
+              "w-full border p-[30px] bg-white rounded focus:outline-none focus:ring-2",
+              "border-brand-20 focus:ring-brand-20",
+              "aria-invalid:border-red-500 aria-invalid:focus:ring-red-500",
+            ].join(" ")}
           />
           <div className="flex space-x-2 justify-between">
             <ButtonAction

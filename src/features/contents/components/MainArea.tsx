@@ -29,15 +29,16 @@ export const MainArea = ({ selectedId, className }: MainAreaProps & ComponentPro
 
   return (
     <MainContainer className={className}>
-      {!selectedId && <MainContainer className={className}>ページを選択してください</MainContainer>}
-      {isLoading && <MainContainer className={className}>読み込み中...</MainContainer>}
-      {error && <MainContainer className={className}>エラーが発生しました</MainContainer>}
-      {!content && (
-        <MainContainer className={className}>お探しの記事は見つかりませんでした</MainContainer>
-      )}
+      {!selectedId && <p>ページを選択してください</p>}
+      {isLoading && <p>読み込み中...</p>}
+      {error && <p>エラーが発生しました</p>}
+      {selectedId && !content && <p>お探しの記事は見つかりませんでした</p>}
       {content && (
         /* 2列（可変幅 + ボタン領域の幅）のグリッドを定義 */
-        <article key={content.id} className="grid grid-cols-[1fr_6rem] grid-rows-[auto_1fr] gap-5">
+        <article
+          key={content.id}
+          className="h-full grid grid-cols-[1fr_96px] grid-rows-[auto_minmax(0,_1fr)] gap-5"
+        >
           <SectionTitle content={content} />
           <SectionBody content={content} />
         </article>
