@@ -116,14 +116,14 @@ export const Sidebar = ({ selectedId, onSelect }: SidebarProps) => {
         "flex flex-col items-stretch justify-between",
       ].join(" ")}
     >
-      <div role="none" className="pt-[30px] px-[40px] flex flex-col gap-5">
+      <div role="none" className="pt-[30px] pl-[40px] pr-0 flex flex-col min-h-0 gap-5">
         <LogoLockup />
         {isLoading && <Loading />}
         {error && <ShowError message={error.message} />}
         {!contents?.length && !isLoading && !error && <NoContents />}
         {contents?.length && (
-          <nav>
-            <ul className="flex-1 overflow-y-auto space-y-1">
+          <nav className="flex min-h-0 flex-col">
+            <ul className="min-h-0 flex-1 overflow-y-auto space-y-1 scrollbar-gutter-stable">
               {sortedContents?.map((content) => (
                 <SidebarItem
                   key={content.id}
