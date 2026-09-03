@@ -1,78 +1,178 @@
-# React + TypeScript + Vite
+# 株式会社NCDC様 フロントエンド技術課題
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 実行環境の構築手順
 
-Currently, two official plugins are available:
+### 前提条件
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- 提供されたバックエンドAPIリポジトリがローカル環境（例: `http://localhost:3000`）で起動していること。
+- [.node-version](.node-version) に記載のバージョンのNode.jsをインストールしていること。
 
-## React Compiler
+### 依存関係と環境変数の設定
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+本プロジェクトのクローン後、依存パッケージをインストールしてください。
 
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```sh
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+バックエンドAPIとの通信において環境変数を参照しています。設定例 [.env.example](.env.example) をコピーしてご利用ください。
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```sh
+cp .env.example .env
+# .env 内の VITE_API_BASE_URL が、起動中のバックエンドAPIのURLと一致しているかご確認ください。
 ```
+
+## アプリの実行
+
+```sh
+# 開発サーバーの起動
+npm run dev
+
+# UIカタログモードでの起動（UI調整用の簡易Sandboxを表示）
+npm run dev:cat
+
+# テストの実行
+npm run test
+
+# カバレッジの計測
+npm run test:coverage
+```
+
+## 選定した技術とその理由
+
+限られた時間の中で「開発体験（DX）の向上」と「保守性の高いコードの提供」を両立する目的で、以下の技術スタックを選定しました。
+
+- フレームワーク: Vite + React + TypeScript
+  - クライアントサイドの堅牢な実装とテストに注力しました。
+  - Next.js: 今回の要件に関して複雑すぎ、開発に時間を要してしまうと判断しました。
+- サーバー通信: SWR + fetch
+  - データフェッチとキャッシュ管理をシンプルに行うため採用しました。
+  - POST時のレスポンスを利用してSWRのキャッシュを更新し、無駄な再フェッチを避けています。
+- スキーマ定義とバリデーション: Zod
+  - 「タイトル1〜50文字」等のドメインルールを宣言的かつ型安全に定義できます。
+  - ドメインルールの定義をそのままAPIのレスポンス検証やフォームのバリデーションで利用可能であり、DRY原則にマッチしています。
+- スタイリング: Tailwind CSS
+  - コンポーネント内にスタイルを閉じることで保守性を高めるため採用しました。
+
+### 選定しなかった技術とその理由
+
+#### Storybook
+
+- 今回はスコープが限定的であり、スピードを優先する必要がありました。
+- 導入・運用コストのかかるStorybookは見送りました。その代替として、ViteのHMRと環境変数を活用した「UIカタログモード（`npm run dev:cat`）」を実装しています。
+  - これにより、専用ツールを導入せずともコンポーネントの確認と調整を素早く進められるようにしました。
+- 実務のチーム開発やデザインシステム構築フェーズであれば、Storybookの採用を検討します。
+
+## UI/UXの工夫
+
+### セマンティックHTMLとアクセシビリティ
+
+閲覧時は `<h2>` や `<p>` といったHTMLタグを使用し、スクリーンリーダーや検索エンジンが正しく文書構造を解釈できるように配慮しました。
+
+編集ボタンををクリックしたときに `<input>` や `<textarea>` などのフォーム要素へ切り替えています。
+
+### リストの並び順
+
+サイドバーのリストは常に最新のアイテムが一番上になるよう、`createdAt` の降順にソートしています。
+
+新規作成時もSWRのキャッシュ配列の先頭に追加する「楽観的な更新」を実行することで、一貫した並び順を保っています。
+
+## テスト戦略
+
+### エラーメッセージの一元管理による保守性の向上
+
+保守性を高めるため、Zodスキーマのバリデーションエラーメッセージを定数オブジェクトとして一元管理しました。これによって、スキーマファイルとテストファイル間でメッセージを共有可能になり、文言を将来的に変更してもテストが壊れにくくなります。
+
+### 表記揺れに強いテスト設計
+
+アクセシブルネームの特定には正規表現（例: `/name/i`）の使用を標準としています。これにより、デザイン変更による微細な文言修正（大文字小文字の変更やスペースの有無など）でテストが壊れることを防ぎます。
+
+**Bad（非推奨）**: 文字列の完全一致による指定は、わずかな表記揺れでテストが失敗してしまいます。
+
+```tsx
+// "New Page" や "new page " となるだけでテストが失敗
+expect(screen.getByRole('button', { name: 'New page' })).toBeInTheDocument();
+```
+
+**Good（推奨）**:正規表現と `i` フラグ（大文字小文字無視）を用いて、柔軟に要素を捕捉します。
+
+```tsx
+// 大文字小文字の違いや、前後の意図しない余白変更に強い
+expect(screen.getByRole('button', { name: /new page/i })).toBeInTheDocument();
+```
+
+### テスト分割による保守性向上
+
+UIコンポーネントのテストにおいて、複数の振る舞いを1つのテストケース内に混在させず、分離するよう意識しました。
+
+（例: アイテムの一覧表示機能と、表示後のアイテムのソート機能を別のテストケースに分離）
+
+これにより、次のような効果をもたらします:
+
+- **障害の早期特定**: 万が一テストが失敗した際、「ソートロジックのバグ」なのか「一覧表示そのものが壊れたのか」をエラーログから特定でき、デバッグの工数を削減します。
+- **仕様変更への耐性**: 今後「降順ソートから昇順ソートへ変更」といった仕様変更が発生した場合でも、一覧表示機能のテストは既存のソート順に依存していないため、引き続きパスし続けます。
+
+### SWRキャッシュ同期の統合テスト
+
+単体コンポーネントのテストに加え、 `SWRConfig` で全体をラップした統合テストを実装しています。
+
+この統合テストを用いて、次のようなコンポーネント間の複雑な状態同期の機能を担保しています。
+
+- メインエリアでタイトルを更新した際、サイドバーの一覧表示も同期して書き換わる
+- 閲覧中の記事を削除した際、メインエリアが適切に初期状態へフォールバックする
+
+### カバレッジの可視化と計測スコープ
+
+- UIコンポーネントやロジックのテストカバレッジを測定・可視化できる環境を構築しました。
+  - 導入ライブラリ: `@vitest/coverage-v8`
+  - レポート作成コマンド: `npm run test:coverage`
+- **計測対象の意図的な絞り込み**
+  - 本課題に取り組むにあたり、「UI/UXの構築とReactの複雑な状態管理」にテストの焦点を当てました。
+  - そのため、外部APIに依存する通信層（下記参照）はカバレッジの計測対象から意図的に除外しています。
+    - `src/api/client.ts`
+    - `src/features/contents/hooks.ts`
+  - 実務においてこれらの層のテストを網羅する場合は次のような方策を検討します:
+    - Good: MSW (Mock Service Worker) などを導入。モックサーバーを含めた統合テストとして記述。
+    - Bad: 個別に `fetch` をモックする単体テストを書く。→テストが壊れやすい。
+
+## 設計・実装資料
+
+### 初期のマークアップメモ
+
+![マークアップのメモ](./doc/img/markup.jpg)
+
+- `aside`, `main>article`, `footer` の大枠の構造から始めました。
+  - `footer`は後に`main`との兄弟要素へ修正しています。
+  - `article`の内部でグリッドレイアウト(subgrid)を使うことを計画していました。
+- サービス名を`h1`, 記事タイトルを`h2`としました
+- 記事リストは`nav>ul>li`で構成しました。
+
+### 仕様上のカラースキーム
+
+#### メインカラー
+
+- ブランドカラー（light blue）: #4CB3F8
+
+#### テキスト
+
+- テキスト-レギュラー（black80）: #333333
+- テキスト-ライト（black50）: #4D4D4D
+- ブランドカラー（light blue）: #4CB3F8
+
+#### ボタン
+
+- ボタン-primary（light blue）: #4CB3F8
+  - hover: #3C8EC4
+  - pressed: #347CAB
+- ボタン-secondary（light blue line）: #4CB3F8
+  - 注意事項: ボタン-secondaryはborderの色。ボタンの背景色は #FFFFFF
+  - hover: #CCCCCC
+  - pressed: #B3B3B3
+- ボタン-normal（black30）: #B3B3B3
+  - hover: #999999
+  - pressed: #808080
+
+#### 背景色
+
+- 背景色-Light（bg light blue1）: #F5F8FA
+- 背景色-Dark（bg light blue1）: #C8E6FA

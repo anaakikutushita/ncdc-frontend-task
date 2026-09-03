@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# testing
+/coverage
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -22,9 +25,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
-#OS
-.DS_Store
 # Windows thumbnail cache files
 Thumbs.db
 Thumbs.db:encryptable
@@ -36,3 +36,9 @@ ehthumbs_vista.db
 [Dd]esktop.ini
 # Windows shortcuts
 *.lnk
+
+# dotenv environment variable files
+.env
+.env.*
+!.env.example
+!.env.catalog
