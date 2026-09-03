@@ -105,3 +105,35 @@ UIコンポーネントのテストにおいて、複数の振る舞いを1つ�
 
 - メインエリアでタイトルを更新した際、サイドバーの一覧表示も同期して書き換わる
 - 閲覧中の記事を削除した際、メインエリアが適切に初期状態へフォールバックする
+
+## 設計・実装資料
+
+### 仕様上のカラースキーム
+
+#### メインカラー
+
+- ブランドカラー（light blue）: #4CB3F8
+
+#### テキスト
+
+- テキスト-レギュラー（black80）: #333333
+- テキスト-ライト（black50）: #4D4D4D
+- ブランドカラー（light blue）: #4CB3F8
+
+#### ボタン
+
+- ボタン-primary（light blue）: #4CB3F8
+  - hover: #3C8EC4
+  - pressed: #347CAB
+- ボタン-secondary（light blue line）: #4CB3F8
+  - 注意事項: ボタン-secondaryはborderの色。ボタンの背景色は #FFFFFF
+  - hover: #CCCCCC
+  - pressed: #B3B3B3
+- ボタン-normal（black30）: #B3B3B3
+  - hover: #999999
+  - pressed: #808080
+
+#### 背景色
+
+- 背景色-Light（bg light blue1）: #F5F8FA
+- 背景色-Dark（bg light blue1）: #C8E6FA
