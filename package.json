@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:cat": "vite --mode catalog",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -14,6 +15,7 @@
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "swr": "^2.5.1",
+    "tailwind-merge": "^3.6.0",
     "zod": "^4.5.2"
   },
   "devDependencies": {

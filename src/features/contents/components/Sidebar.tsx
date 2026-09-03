@@ -1,4 +1,5 @@
-import { LabelButton } from "@/components/ui/LabelButton";
+import { LogoLockup } from "@/components/logo/LogoLockup";
+import { ButtonAction } from "@/features/contents/components/ButtonAction";
 import { createContent, deleteContent, useContents } from "@/features/contents/hooks";
 import { type Content } from "@/features/contents/schemas";
 import { sortContentsByDesc } from "@/utils/sort";
@@ -23,20 +24,39 @@ const FooterButtons = ({
   handleCreate?: () => Promise<void>;
 }) => {
   return (
-    <div className="flex space-x-2">
+    <div className="p-3 bg-surface-light flex space-x-2 justify-between items-center">
       {!isEditing && (
-        <LabelButton aria-label="edit" variant="primary" onClick={() => setIsEditing(true)}>
-          Edit
-        </LabelButton>
+        <>
+          {/* justify-between でボタンを右寄せにするために空要素を配置 */}
+          <div role="none"></div>
+          <ButtonAction
+            aria-label="edit"
+            action="edit"
+            className="min-w-[96px]"
+            onClick={() => setIsEditing(true)}
+          >
+            Edit
+          </ButtonAction>
+        </>
       )}
       {isEditing && (
         <>
-          <LabelButton aria-label="new page" variant="secondary" onClick={handleCreate}>
+          <ButtonAction
+            aria-label="new page"
+            action="new"
+            className="min-w-[96px]"
+            onClick={handleCreate}
+          >
             New page
-          </LabelButton>
-          <LabelButton aria-label="done" variant="primary" onClick={() => setIsEditing(false)}>
+          </ButtonAction>
+          <ButtonAction
+            aria-label="done"
+            action="done"
+            className="min-w-[96px]"
+            onClick={() => setIsEditing(false)}
+          >
             Done
-          </LabelButton>
+          </ButtonAction>
         </>
       )}
     </div>
@@ -89,26 +109,35 @@ export const Sidebar = ({ selectedId, onSelect }: SidebarProps) => {
 
   const [isEditing, setIsEditing] = useState(false);
   return (
-    <aside className="w-[280px] bg-light">
-      {isLoading && <Loading />}
-      {error && <ShowError message={error.message} />}
-      {!contents?.length && !isLoading && !error && <NoContents />}
-      {contents?.length && (
-        <nav>
-          <ul className="flex-1 overflow-y-auto p-2 space-y-1">
-            {sortedContents?.map((content) => (
-              <SidebarItem
-                key={content.id}
-                content={content}
-                isEditing={isEditing}
-                isSelected={selectedId === content.id}
-                onSelect={onSelect}
-                onDelete={handleDelete}
-              />
-            ))}
-          </ul>
-        </nav>
-      )}
+    <aside
+      className={[
+        "w-[280px] bg-white",
+        "border-r-[1px] border-surface-light",
+        "flex flex-col items-stretch justify-between",
+      ].join(" ")}
+    >
+      <div role="none" className="pt-[30px] px-[40px] flex flex-col gap-5">
+        <LogoLockup />
+        {isLoading && <Loading />}
+        {error && <ShowError message={error.message} />}
+        {!contents?.length && !isLoading && !error && <NoContents />}
+        {contents?.length && (
+          <nav>
+            <ul className="flex-1 overflow-y-auto space-y-1">
+              {sortedContents?.map((content) => (
+                <SidebarItem
+                  key={content.id}
+                  content={content}
+                  isEditing={isEditing}
+                  isSelected={selectedId === content.id}
+                  onSelect={onSelect}
+                  onDelete={handleDelete}
+                />
+              ))}
+            </ul>
+          </nav>
+        )}
+      </div>
       <FooterButtons
         isEditing={isEditing}
         setIsEditing={setIsEditing}

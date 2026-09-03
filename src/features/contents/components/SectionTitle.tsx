@@ -1,8 +1,8 @@
-import { LabelButton } from "@/components/ui/LabelButton";
 import { EP_CONTENT, updateContent, useContent } from "@/features/contents/hooks";
 import { type Content, ContentSchema } from "@/features/contents/schemas";
 import { useState } from "react";
 import { useSWRConfig } from "swr";
+import { ButtonAction } from "./ButtonAction";
 
 type SectionTitleProps = {
   content: Content;
@@ -50,17 +50,15 @@ export const SectionTitle = ({ content }: SectionTitleProps) => {
   };
 
   return (
-    <header className="col-span-2 grid grid-cols-subgrid items-start border-b pb-4">
+    <header className="col-span-2 grid grid-cols-subgrid items-center">
       {!isEditing ? (
         <>
-          <h2 className="title text-3xl font-bold text-gray-900 truncate">{title}</h2>
-          <LabelButton
-            className="edit text-sm font-medium text-blue-600 hover:text-blue-800"
-            onClick={() => setIsEditing(true)}
+          <h2 className="pl-[30px] text-lg font-bold truncate">{title}</h2>
+          <ButtonAction
             aria-label="タイトルを編集"
-          >
-            編集
-          </LabelButton>
+            action="edit"
+            onClick={() => setIsEditing(true)}
+          />
         </>
       ) : (
         <>
@@ -69,23 +67,24 @@ export const SectionTitle = ({ content }: SectionTitleProps) => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             aria-label="タイトル"
-            className={`w-full border p-2 rounded focus:outline-none focus:ring-2 ${
-              error ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-blue-500"
-            }`}
+            aria-invalid={error ? "true" : undefined}
+            className={[
+              "text-lg font-bold",
+              "w-full border pl-[30px] rounded focus:outline-none focus:ring-2",
+              "border-brand-20 focus:ring-brand-20",
+              "aria-invalid:border-red-500 aria-invalid:focus:ring-red-500",
+            ].join(" ")}
           />
+          <div className="flex space-x-2 justify-between">
+            <ButtonAction
+              aria-label="キャンセル"
+              action="cancel"
+              className="flex-1"
+              onClick={handleCancel}
+            />
+            <ButtonAction aria-label="保存" action="save" className="flex-1" onClick={handleSave} />
+          </div>
           {error && <span className="text-red-500 text-xs font-medium">{error}</span>}
-          <LabelButton
-            onClick={handleSave}
-            className="px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 rounded whitespace-nowrap"
-          >
-            保存
-          </LabelButton>
-          <LabelButton
-            onClick={handleCancel}
-            className="px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 rounded whitespace-nowrap"
-          >
-            キャンセル
-          </LabelButton>
         </>
       )}
     </header>

@@ -1,7 +1,7 @@
-import { LabelButton } from "@/components/ui/LabelButton";
 import { updateContent, useContent } from "@/features/contents/hooks";
 import { ContentSchema, type Content } from "@/features/contents/schemas";
 import { useState } from "react";
+import { ButtonAction } from "./ButtonAction";
 
 type SectionBodyProps = { content: Content };
 
@@ -41,19 +41,21 @@ export const SectionBody = ({ content }: SectionBodyProps) => {
   };
 
   return (
-    <div className="col-span-2 grid grid-cols-subgrid items-start">
+    <div className="grid col-span-2 grid-cols-subgrid">
       {!isEditing ? (
         <>
-          <p className="body h-[400px] w-full overflow-y-auto p-4 bg-gray-50 rounded border border-gray-200 whitespace-pre-wrap text-gray-800">
-            {content.body}
-          </p>
-          <LabelButton
-            className="edit text-sm font-medium text-blue-600 hover:text-blue-800"
-            onClick={() => setIsEditing(true)}
-            aria-label="本文を編集"
-          >
-            編集
-          </LabelButton>
+          <div role="none" className="min-h-0">
+            <p
+              className={[
+                "h-full",
+                "rounded border border-gray-200 p-[30px] bg-white",
+                "overflow-y-auto whitespace-pre-wrap",
+              ].join(" ")}
+            >
+              {content.body}
+            </p>
+          </div>
+          <ButtonAction aria-label="本文を編集" action="edit" onClick={() => setIsEditing(true)} />
         </>
       ) : (
         <>
@@ -61,25 +63,24 @@ export const SectionBody = ({ content }: SectionBodyProps) => {
             value={body}
             onChange={(e) => setBody(e.target.value)}
             aria-label="本文"
-            className={`h-[400px] w-full p-4 border rounded resize-none focus:outline-none focus:ring-2 ${
-              error ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-blue-500"
-            }`}
+            aria-invalid={error ? "true" : undefined}
+            className={[
+              "resize-none",
+              "w-full border p-[30px] bg-white rounded focus:outline-none focus:ring-2",
+              "border-brand-20 focus:ring-brand-20",
+              "aria-invalid:border-red-500 aria-invalid:focus:ring-red-500",
+            ].join(" ")}
           />
-          {error && <span className="text-red-500 text-xs font-medium">{error}</span>}
-          <div className="flex flex-col gap-2 shrink-0">
-            <LabelButton
-              onClick={handleSave}
-              className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded whitespace-nowrap"
-            >
-              保存
-            </LabelButton>
-            <LabelButton
+          <div className="flex space-x-2 justify-between">
+            <ButtonAction
+              aria-label="キャンセル"
+              action="cancel"
+              className="flex-1"
               onClick={handleCancel}
-              className="px-4 py-2 text-sm font-medium bg-gray-100 hover:bg-gray-200 rounded whitespace-nowrap"
-            >
-              キャンセル
-            </LabelButton>
+            />
+            <ButtonAction aria-label="保存" action="save" className="flex-1" onClick={handleSave} />
           </div>
+          {error && <span className="text-red-500 text-xs font-medium">{error}</span>}
         </>
       )}
     </div>
