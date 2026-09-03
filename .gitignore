@@ -38,3 +38,4 @@ ehthumbs_vista.db
 .env
 .env.*
 !.env.example
+!.env.catalog
