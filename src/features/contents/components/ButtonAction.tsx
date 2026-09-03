@@ -19,7 +19,7 @@ export const ButtonAction = ({ className, action, ...props }: ButtonActionProps)
       icon: editIcon,
     },
     done: {
-      variant: "secondary",
+      variant: "primary",
       label: "Done",
       icon: doneIcon,
     },
